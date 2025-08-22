@@ -12,6 +12,6 @@ void main() {
     expect(find.text('Aboss'), findsOneWidget);
 
     // ✅ Body text check
-    expect(find.text('Hi Antony'), findsOneWidget);
+    expect(find.text('Hello Antony'), findsOneWidget);
   });
 }
