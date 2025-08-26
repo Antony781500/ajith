@@ -1,7 +1,10 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // Flutter Gradle Plugin must be applied after Android/Kotlin
     id("dev.flutter.flutter-gradle-plugin")
 }
 
@@ -20,21 +23,43 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.ajith"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        applicationId = "com.aboss.aboss30006"
+        minSdk = flutter.minSdkVersion   // ✅ correct usage
         targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+
+        // ✅ safer version handling (manual for now)
+        versionCode = 7
+        versionName = "1.0.0"
     }
 
+   signingConfigs {
+    create("release") {
+        val keystoreProperties = Properties()
+        val keystoreFile = rootProject.file("key.properties")
+        if (keystoreFile.exists()) {
+            keystoreProperties.load(FileInputStream(keystoreFile))
+
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+        } else {
+            println("⚠️ key.properties file not found! Release signing will fail.")
+        }
+    }
+}
+
+
+
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+        getByName("release") {
+            // ❌ don’t use shrinkResources without minifyEnabled
+            isMinifyEnabled = false
+            isShrinkResources = false   // ✅ added to avoid error
+            signingConfig = signingConfigs.getByName("release")
+        }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }
