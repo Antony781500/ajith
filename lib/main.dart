@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    eturn Scaffold(
       appBar: AppBar(
         title: const Text("Aboss"),
         centerTitle: true,
