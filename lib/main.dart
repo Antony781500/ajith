@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
       ),
       body: const Center(
         child: Text(
-          "Hello Antony",
+          "Hello Antony"
           style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
         ),
       ),
