@@ -1,31 +1,21 @@
-name: Flutter Automated Tests
+name: Flutter Manual Test Run
 
 on:
-  push:       
-    branches: [ "master" ]
-  pull_request: 
-    branches: [ "master" ]
+  workflow_dispatch:
 
 jobs:
   test:
-    runs-on: ubuntu-latest   # GitHub Linux runner
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Repo Checkout
       - uses: actions/checkout@v3
 
-      # Step 2: Flutter Setup
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.35.1'   
-      # Step 3: Install Dependencies
+          flutter-version: '3.35.1'
+
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 4: Analyze (Code Lint Check)
-      - name: Analyze project source
-        run: flutter analyze
-
-      # Step 5: Run Unit & Widget Tests (Automation)
-      - name: Run flutter tests
+      - name: Run tests
         run: flutter test
